@@ -1,4 +1,3 @@
-torch
 pandas
 numpy
 matplotlib
@@ -7,3 +6,5 @@ fastapi
 dvc
 pyYAML
 tqdm
+
+-e .
