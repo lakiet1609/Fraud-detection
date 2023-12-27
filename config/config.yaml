@@ -1,0 +1,14 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  root_dir: artifacts/data/fraud.csv
+  train_path: artifacts/data/train.csv
+  test_path: artifacts/data/test.csv
+  validation_path: artifacts/data/validation.csv
+
+data_transformation:
+  root_dir: artifacts/preprocess
+  train_path: artifacts/data/train.csv
+  train_arr: artifacts/preprocess/train_array.npy
+  test_path: artifacts/data/test.csv
+  test_arr: artifacts/preprocess/test_array.npy
