@@ -18,8 +18,6 @@ class DataTransformation:
             train_df = pd.read_csv(self.train_path)
             test_df = pd.read_csv(self.test_path)
             logger.info("Read train and test data completed")
-            print(train_df['Time'])
-            print(test_df['Time'])
 
             #Remove duplicates records
             train_df = train_df.drop_duplicates()
@@ -30,12 +28,10 @@ class DataTransformation:
             
             train_df['Time'] = std_scaler.fit_transform(train_df['Amount'].values.reshape(-1,1))
             train_df['Amount'] = std_scaler.fit_transform(train_df['Time'].values.reshape(-1,1))
-            print(train_df['Time'])
 
             test_df['Time'] = std_scaler.transform(test_df['Amount'].values.reshape(-1,1))
             test_df['Amount'] = std_scaler.transform(test_df['Time'].values.reshape(-1,1))
-            print(test_df['Time'])
-            
+
             logger.info('Rescale the time and amount columns for train and test set')
             
             #Remove outliers (Highest negative correlated with Class)

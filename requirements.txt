@@ -6,5 +6,8 @@ fastapi
 dvc
 pyYAML
 tqdm
+flask
+scikit-learn
+imblearn
 
 -e .
