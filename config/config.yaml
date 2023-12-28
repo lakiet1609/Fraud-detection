@@ -4,7 +4,6 @@ data_ingestion:
   root_dir: artifacts/data/fraud.csv
   train_path: artifacts/data/train.csv
   test_path: artifacts/data/test.csv
-  validation_path: artifacts/data/validation.csv
 
 data_transformation:
   root_dir: artifacts/preprocess
@@ -12,3 +11,12 @@ data_transformation:
   train_arr: artifacts/preprocess/train_array.npy
   test_path: artifacts/data/test.csv
   test_arr: artifacts/preprocess/test_array.npy
+
+model_training:
+  root_dir: artifacts/models
+  result_dir: artifacts/results
+  model_path: artifacts/models/model.pkl
+  train_arr: artifacts/preprocess/train_array.npy
+  test_arr: artifacts/preprocess/test_array.npy
+  train_result: artifacts/results/train_result.json
+  test_result: artifacts/results/test_result.json

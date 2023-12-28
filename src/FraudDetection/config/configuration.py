@@ -2,7 +2,7 @@ from FraudDetection.constants import *
 import os
 from pathlib import Path
 from FraudDetection.utils.common import read_yaml, create_directories
-from FraudDetection.entity.config_entity import DataIngestionCongfig, DataTransformationConfig
+from FraudDetection.entity.config_entity import DataIngestionCongfig, DataTransformationConfig, ModelTrainingConfig
 
 
 class ConfigurationManager:
@@ -17,8 +17,7 @@ class ConfigurationManager:
         data_ingestion_config = DataIngestionCongfig(
             root_dir=config['root_dir'],
             train_path=config['train_path'],
-            test_path=config['test_path'],
-            validation_path=config['validation_path']
+            test_path=config['test_path']
         )
         
         return data_ingestion_config
@@ -35,3 +34,18 @@ class ConfigurationManager:
         )
         
         return data_ingestion_config
+    
+    def get_model_training_config(self) -> ModelTrainingConfig:
+        config = self.config['model_training']
+        create_directories(config['root_dir'])
+        create_directories(config['result_dir'])
+        
+        model_training_config = ModelTrainingConfig(
+            model_path= config['model_path'],
+            train_arr=config['train_arr'],
+            test_arr=config['test_arr'],
+            train_result=config['train_result'],
+            test_result=config['test_result']
+        )
+        
+        return model_training_config
