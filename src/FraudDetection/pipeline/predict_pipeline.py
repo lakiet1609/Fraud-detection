@@ -7,14 +7,15 @@ class PredictPipeline:
     def __init__(self):
         pass
 
-    def predict(self, features):
+    def predict(self, features:pd.DataFrame):
         try:
             model_path = os.path.join('artifacts', 'models', 'model.pkl')
-            cols = ['Amount', 'Time']
-            for col in cols:
-                features[col] = StandardScaler().transform(features[col].values.reshape(-1,1))
+            preprocessor_path = os.path.join('artifacts', 'preprocess', 'preprocessor.pkl')
+            preprocessor = load_object(preprocessor_path)
             model = load_object(model_path)
-            preds = model.predict(features)
+            features['Time'] = preprocessor.transform(features['Amount'].values.reshape(-1,1))
+            features['Amount'] = preprocessor.transform(features['Time'].values.reshape(-1,1))
+            preds = model.predict(features.values)
             return preds
         except Exception as e:
             raise e
@@ -94,3 +95,11 @@ class CustomData:
         
         except Exception as e:
             raise e
+
+if __name__ == '__main__':
+    variable_list = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+                 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+                 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Time', 'Amount']
+    data_dict = {item: [1] for item in variable_list}
+    df = pd.DataFrame(data_dict)
+    PRED = PredictPipeline().predict(df)

@@ -13,6 +13,7 @@ class DataTransformationConfig:
     test_path: Path
     train_arr: Path
     test_arr: Path
+    preprocessor_path: Path
 
 
 @dataclass(frozen=True)

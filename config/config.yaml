@@ -7,6 +7,7 @@ data_ingestion:
 
 data_transformation:
   root_dir: artifacts/preprocess
+  preprocessor_path: artifacts/preprocess/preprocessor.pkl
   train_path: artifacts/data/train.csv
   train_arr: artifacts/preprocess/train_array.npy
   test_path: artifacts/data/test.csv

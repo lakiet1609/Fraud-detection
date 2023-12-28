@@ -1,8 +1,9 @@
 import numpy as np 
 import pandas as pd
-from imblearn.under_sampling import NearMiss
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import  StandardScaler
 from FraudDetection import logger
+from FraudDetection.utils.common import save_object
 from imblearn.combine import SMOTEENN
 from FraudDetection.entity.config_entity import DataTransformationConfig
 
@@ -12,7 +13,15 @@ class DataTransformation:
         self.test_path = config.test_path
         self.train_arr = config.train_arr
         self.test_arr = config.test_arr
+        self.preprocessor_path = config.preprocessor_path
     
+    def get_data_transformer_object(self):
+        try:
+            preprocessor = Pipeline(steps=[("scaler",StandardScaler())])
+            return preprocessor
+        except Exception as e:
+            raise e
+        
     def initiate_data_transformation(self):
         try:
             train_df = pd.read_csv(self.train_path)
@@ -24,13 +33,13 @@ class DataTransformation:
             logger.info('Remove duplicated records')
 
             #Rescale the Amount and Time feature in the dataset
-            std_scaler = StandardScaler()
+            preprocessor = self.get_data_transformer_object()
             
-            train_df['Time'] = std_scaler.fit_transform(train_df['Amount'].values.reshape(-1,1))
-            train_df['Amount'] = std_scaler.fit_transform(train_df['Time'].values.reshape(-1,1))
+            train_df['Time'] = preprocessor.fit_transform(train_df['Amount'].values.reshape(-1,1))
+            train_df['Amount'] = preprocessor.fit_transform(train_df['Time'].values.reshape(-1,1))
 
-            test_df['Time'] = std_scaler.transform(test_df['Amount'].values.reshape(-1,1))
-            test_df['Amount'] = std_scaler.transform(test_df['Time'].values.reshape(-1,1))
+            test_df['Time'] = preprocessor.transform(test_df['Amount'].values.reshape(-1,1))
+            test_df['Amount'] = preprocessor.transform(test_df['Time'].values.reshape(-1,1))
 
             logger.info('Rescale the time and amount columns for train and test set')
             
@@ -42,8 +51,8 @@ class DataTransformation:
                 quantile_25 = train_df[col].loc[train_df[target_column] == 1].quantile(0.25)
                 quantile_75 = train_df[col].loc[train_df[target_column] == 1].quantile(0.75)
                 iqr = quantile_75 - quantile_25
-                lower_limit = quantile_25 - iqr*2
-                upper_limit = quantile_75 + iqr*2
+                lower_limit = quantile_25 - iqr*1.5
+                upper_limit = quantile_75 + iqr*1.5
                 new_train_df = train_df.drop(train_df[(train_df[col] > upper_limit) | (train_df[col] < lower_limit)].index)
                 train_df = new_train_df
             
@@ -66,9 +75,11 @@ class DataTransformation:
  
             np.save(self.train_arr, train_arr)
             np.save(self.test_arr, test_arr)
-            
             logger.info('Save preprocessed train and test set')
-            
+
+            save_object(self.preprocessor_path, preprocessor)
+            logger.info('Save preprocessor')
+    
             return train_arr, test_arr
 
         except Exception as e:

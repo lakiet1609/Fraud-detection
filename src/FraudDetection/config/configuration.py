@@ -30,7 +30,8 @@ class ConfigurationManager:
             train_path= config['train_path'],
             test_path=config['test_path'],
             train_arr=config['train_arr'],
-            test_arr=config['test_arr']
+            test_arr=config['test_arr'],
+            preprocessor_path=config['preprocessor_path']
         )
         
         return data_ingestion_config
