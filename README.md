@@ -63,6 +63,10 @@ Steps including in this projects:
 - Deploy custom prediction using Flask api
 - Write frontend web using HTML
 
+![Screenshot 2023-12-29 170607](https://github.com/lakiet1609/Fraud-detection/assets/116550803/0b0c09a5-97ca-48d6-b916-beec8482bc0f)
+
+![Screenshot 2023-12-29 170621](https://github.com/lakiet1609/Fraud-detection/assets/116550803/a05536d1-95d1-42e9-ad7a-22e6f96e8d55)
+
 9. Dokerization and AWS CICD pipeline
 - Including: Dockerfile, .github/workflows/main.yaml
 - Building docker container
@@ -73,3 +77,7 @@ Steps including in this projects:
     - Install docker in EC2 Machine
     - Configure EC2 as self-hosted runner
     - Setup github secrets
+
+![aws](https://github.com/lakiet1609/Fraud-detection/assets/116550803/e1b789f9-66f1-4734-b046-25b108a80186)
+
+![Screenshot 2023-12-29 170346](https://github.com/lakiet1609/Fraud-detection/assets/116550803/ab6ce753-33df-4f12-aeb6-f1e91eb7c546)
