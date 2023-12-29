@@ -1,7 +1,10 @@
 artifacts_root: artifacts
 
 data_ingestion:
-  root_dir: artifacts/data/fraud.csv
+  source_url: 'https://drive.google.com/file/d/1lmKT53zineb3yVrAIlcQa8Mksg5oL2ig/view?usp=drive_link'
+  local_data_file: artifacts/data/data.zip
+  unzip_dir: artifacts/data
+  data_path: artifacts/data/fraud.csv
   train_path: artifacts/data/train.csv
   test_path: artifacts/data/test.csv
 

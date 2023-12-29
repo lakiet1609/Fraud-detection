@@ -9,5 +9,6 @@ tqdm
 flask
 scikit-learn
 imblearn
+gdown
 
 -e .

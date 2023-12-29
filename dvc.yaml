@@ -5,9 +5,7 @@ stages:
       - src/FraudDetection/pipeline/data_ingestion_pipeline.py
       - config/config.yaml
     outs:
-      - artifacts/data/test.csv
-      - artifacts/data/train.csv
-
+      - artifacts/data
 
   data_transformation:
     cmd: python .\src\FraudDetection\pipeline\data_transformation_pipeline.py

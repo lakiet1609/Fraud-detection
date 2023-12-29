@@ -11,6 +11,8 @@ class DataIngestionPipeline:
     def ingest_data(self):
         config = ConfigurationManager().get_data_ingestion_config()
         data_ingestion = DataIngestion(config=config)
+        data_ingestion.download_file()
+        data_ingestion.extract_zip_file()
         data_ingestion.initiate_data_ingestion()
 
 if __name__ == '__main__':

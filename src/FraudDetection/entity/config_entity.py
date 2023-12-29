@@ -3,9 +3,12 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class DataIngestionCongfig:
-    root_dir: Path
+    unzip_dir: Path
     train_path: Path
     test_path: Path
+    source_url: str
+    local_data_file: Path
+    data_path: Path
 
 @dataclass(frozen=True)
 class DataTransformationConfig:

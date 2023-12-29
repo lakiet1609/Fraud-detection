@@ -15,9 +15,12 @@ class ConfigurationManager:
         config = self.config['data_ingestion']
         
         data_ingestion_config = DataIngestionCongfig(
-            root_dir=config['root_dir'],
+            unzip_dir=config['unzip_dir'],
             train_path=config['train_path'],
-            test_path=config['test_path']
+            test_path=config['test_path'],
+            source_url=config['source_url'],
+            local_data_file=config['local_data_file'],
+            data_path=config['data_path']
         )
         
         return data_ingestion_config
