@@ -1,0 +1,31 @@
+stages:
+  data_ingestion:
+    cmd: python .\src\FraudDetection\pipeline\data_ingestion_pipeline.py
+    deps:
+      - src/FraudDetection/pipeline/data_ingestion_pipeline.py
+      - config/config.yaml
+    outs:
+      - artifacts/data/test.csv
+      - artifacts/data/train.csv
+
+
+  data_transformation:
+    cmd: python .\src\FraudDetection\pipeline\data_transformation_pipeline.py
+    deps:
+      - src/FraudDetection/pipeline/data_transformation_pipeline.py
+      - config/config.yaml
+    outs:
+      - artifacts/preprocess
+
+  model_training:
+    cmd: python .\src\FraudDetection\pipeline\model_training_pipeline.py
+    deps:
+      - src/FraudDetection/pipeline/model_training_pipeline.py
+      - config/config.yaml
+      - artifacts/preprocess/train_array.npy
+      - artifacts/preprocess/test_array.npy
+    outs:
+      - artifacts/models
+      - artifacts/results
+
+

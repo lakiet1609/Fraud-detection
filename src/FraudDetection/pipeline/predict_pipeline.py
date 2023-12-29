@@ -13,8 +13,10 @@ class PredictPipeline:
             preprocessor_path = os.path.join('artifacts', 'preprocess', 'preprocessor.pkl')
             preprocessor = load_object(preprocessor_path)
             model = load_object(model_path)
-            features['Time'] = preprocessor.transform(features['Amount'].values.reshape(-1,1))
-            features['Amount'] = preprocessor.transform(features['Time'].values.reshape(-1,1))
+            features['Time'] = features['Time'].astype(float)
+            features['Time'] = preprocessor.transform(features['Time'].values.reshape(-1,1))
+            print(features['Time'])
+            features['Amount'] = preprocessor.transform(features['Amount'].values.reshape(-1,1))
             preds = model.predict(features.values)
             return preds
         except Exception as e:
@@ -97,9 +99,9 @@ class CustomData:
             raise e
 
 if __name__ == '__main__':
-    variable_list = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
-                 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
-                 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Time', 'Amount']
-    data_dict = {item: [1] for item in variable_list}
-    df = pd.DataFrame(data_dict)
-    PRED = PredictPipeline().predict(df)
+    data = CustomData(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+    df = data.get_data_as_dataframe()
+
+    print(type(df['Amount']))
+    pred = PredictPipeline().predict(df.values)
+    print(pred[0])

@@ -1,0 +1,69 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python .\src\FraudDetection\pipeline\data_ingestion_pipeline.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 6fda864103f2e96caaf3860c4fa08c64
+      size: 784
+    - path: src/FraudDetection/pipeline/data_ingestion_pipeline.py
+      hash: md5
+      md5: 031176c59cd331952f3cad16f3d477e7
+      size: 808
+    outs:
+    - path: artifacts/data/test.csv
+      hash: md5
+      md5: fb0802db1bbbd4663abcc49c70761943
+      size: 727236
+    - path: artifacts/data/train.csv
+      hash: md5
+      md5: 7a184c106c8e76ffe6abd13bf266689a
+      size: 2181814
+  data_transformation:
+    cmd: python .\src\FraudDetection\pipeline\data_transformation_pipeline.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 6fda864103f2e96caaf3860c4fa08c64
+      size: 784
+    - path: src/FraudDetection/pipeline/data_transformation_pipeline.py
+      hash: md5
+      md5: 333a993c4a696e677d83911acaf1f138
+      size: 954
+    outs:
+    - path: artifacts/preprocess
+      hash: md5
+      md5: 4aafcdf41c59a2597c32352ef42e8fe2.dir
+      size: 2138824
+      nfiles: 3
+  model_training:
+    cmd: python .\src\FraudDetection\pipeline\model_training_pipeline.py
+    deps:
+    - path: artifacts/preprocess/test_array.npy
+      hash: md5
+      md5: fadf6e9b96213308bbb5c6ea40904e0b
+      size: 340632
+    - path: artifacts/preprocess/train_array.npy
+      hash: md5
+      md5: 504bd117c0353dfe1f7e3262b0e2e4c1
+      size: 1797632
+    - path: config/config.yaml
+      hash: md5
+      md5: 6fda864103f2e96caaf3860c4fa08c64
+      size: 784
+    - path: src/FraudDetection/pipeline/model_training_pipeline.py
+      hash: md5
+      md5: 28cee68b93f46d5b683c146dfb053c43
+      size: 811
+    outs:
+    - path: artifacts/models
+      hash: md5
+      md5: c33fef46be79a0ada152ed7664f558ea.dir
+      size: 4079798
+      nfiles: 1
+    - path: artifacts/results
+      hash: md5
+      md5: 4c89d2b7628544d14db32ed67d9a7e8d.dir
+      size: 2156
+      nfiles: 2

@@ -1,8 +1,4 @@
 from flask import Flask,request,render_template
-import numpy as np
-import pandas as pd
-
-from sklearn.preprocessing import StandardScaler
 from FraudDetection.pipeline.predict_pipeline import CustomData, PredictPipeline
 
 application=Flask(__name__)
@@ -53,10 +49,16 @@ def predict_datapoint():
             Amount=float(request.form.get('Amount')),
         )
         pred_df=data.get_data_as_dataframe()
-        print(pred_df)
+
         predict_pipeline=PredictPipeline()
-        results=predict_pipeline.predict(pred_df)
-        return render_template('home.html',results=results[0])
+        result=predict_pipeline.predict(pred_df)
+        result = int(result[0])
+        if result == 0:
+            res = 'Normal Transaction'
+        else:
+            res = 'Fraud Transaction'
+        
+        return render_template('home.html',results=res)
     
 
 if __name__=="__main__":
