@@ -161,4 +161,4 @@ cython_debug/
 
 test.py
 research
-artifacts
+artifacts/data

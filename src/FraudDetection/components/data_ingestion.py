@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from FraudDetection import logger
 from FraudDetection.entity.config_entity import DataIngestionCongfig
-from pathlib import Path
+import shutil
 import gdown
 import os
 import zipfile
@@ -35,6 +35,7 @@ class DataIngestion:
         with zipfile.ZipFile(self.local_data_file, 'r') as zip_ref:
             zip_ref.extractall(unzip_path)
         logger.info('Extracted zip file completed')
+        shutil.rmtree(self.local_data_file)
 
     def initiate_data_ingestion(self):
         logger.info('Entered the data ingestion method or component')
