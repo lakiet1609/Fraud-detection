@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-from sklearn.preprocessing import  StandardScaler
 from FraudDetection.utils.common import load_object
 
 class PredictPipeline:
@@ -101,7 +100,5 @@ class CustomData:
 if __name__ == '__main__':
     data = CustomData(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
     df = data.get_data_as_dataframe()
-
-    print(type(df['Amount']))
     pred = PredictPipeline().predict(df.values)
     print(pred[0])
