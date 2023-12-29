@@ -1,11 +1,14 @@
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.neural_network import MLPClassifier
 from xgboost import XGBClassifier
-from sklearn.metrics import classification_report, f1_score
+from sklearn.metrics import classification_report, f1_score, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from FraudDetection import logger
 from FraudDetection.entity.config_entity import ModelTrainingConfig
 from FraudDetection.utils.common import save_object, save_json
 import numpy as np
+import matplotlib.pyplot as plt
+import os
 
 
 class ModerTraining:
@@ -28,6 +31,7 @@ class ModerTraining:
             #Model selection
             models = {
                 "Random Forest": RandomForestClassifier(),
+                "MLP": MLPClassifier(max_iter=1000),
                 "AdaBoost": AdaBoostClassifier(),
                 "XGBClassifier": XGBClassifier(),
             }
@@ -40,6 +44,13 @@ class ModerTraining:
                     'n_estimators': [100, 200, 400],
                     'criterion': ['gini', 'entropy'],
                     'max_features': ['sqrt', 'log2'],
+                },
+                "MLP":{
+                    'hidden_layer_sizes': [(50,50,50), (50,100,50), (100,)],
+                    'activation': ['tanh', 'relu'],
+                    'solver': ['sgd', 'adam'],
+                    'alpha': [0.0001, 0.05],
+                    'learning_rate': ['constant','adaptive'],
                 },
                 "XGBClassifier":{
                     'learning_rate': [0.1, 0.01, 0.001],
@@ -65,7 +76,7 @@ class ModerTraining:
             for i in range(len(list(models))):
                 model = list(models.values())[i]
                 param= params[list(models.keys())[i]]
-                gs = GridSearchCV(model, param, cv=cv, n_jobs=-1, scoring='f1')
+                gs = GridSearchCV(model, param, cv=cv, n_jobs=-1, scoring='f1_macro')
                 gs.fit(X_train,y_train)
 
                 model.set_params(**gs.best_params_)
@@ -73,6 +84,11 @@ class ModerTraining:
 
                 y_train_pred = model.predict(X_train)
                 y_test_pred = model.predict(X_test)
+
+                cm = confusion_matrix(y_test, y_test_pred)
+                disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+                disp.plot()
+                plt.savefig(os.path.join('artifacts', 'results', f'{list(models.keys())[i]}.png'))
                 
                 train_report = classification_report(y_train, y_train_pred)
                 train_result[list(models.keys())[i]] = train_report
