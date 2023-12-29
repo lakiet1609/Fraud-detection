@@ -1,5 +1,6 @@
 from flask import Flask,request,render_template
 from FraudDetection.pipeline.predict_pipeline import CustomData, PredictPipeline
+import os
 
 application=Flask(__name__)
 
@@ -10,6 +11,11 @@ app=application
 @app.route('/')
 def index():
     return render_template('index.html') 
+
+@app.route('/train', methods = ['GET', 'POST'])
+def training_route():
+    os.system('dvc repro')
+    return 'Training done successfully'
 
 @app.route('/predictdata',methods=['GET','POST'])
 def predict_datapoint():
